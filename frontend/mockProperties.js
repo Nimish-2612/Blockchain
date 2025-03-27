@@ -4,7 +4,7 @@ export const properties = [
       id: 1,
       name: "Downtown Apartment",
       description: "2 bed, 1 bath in city center",
-      image: "https://via.placeholder.com/300x200.png?text=Property+1",
+      image:"../frontend//images//downtown apartment.jpg",
     },
     {
       id: 2,
@@ -16,7 +16,7 @@ export const properties = [
       id: 3,
       name: "Mountain Cabin",
       description: "Cozy retreat with a scenic mountain view",
-      image: "https://via.placeholder.com/300x200.png?text=Property+3",
+      image: "",
     },
   ];
   
