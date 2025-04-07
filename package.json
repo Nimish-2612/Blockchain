@@ -16,7 +16,7 @@
     "hardhat": "^2.10.1"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0"
+    "@openzeppelin/contracts": "^4.8.0",
+    "react-hot-toast": "^2.5.2"
   }
 }
-
