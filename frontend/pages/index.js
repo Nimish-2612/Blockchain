@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import Web3Modal from "web3modal";
-import { properties } from "../mockProperties"; // Updated with image URLs
+import { properties } from "../mockProperties";
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
+import Head from "next/head";
 
 export default function Home() {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
-  const [contractAddress, setContractAddress] = useState(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "");
+  const [contractAddress, setContractAddress] = useState(
+    process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || ""
+  );
   const [message, setMessage] = useState("");
 
   const contractABI = [
@@ -25,7 +28,11 @@ export default function Home() {
       setAccount(address);
 
       if (contractAddress) {
-        const realEstateContract = new ethers.Contract(contractAddress, contractABI, signer);
+        const realEstateContract = new ethers.Contract(
+          contractAddress,
+          contractABI,
+          signer
+        );
         setContract(realEstateContract);
         toast.success("Wallet connected!");
       }
@@ -40,14 +47,20 @@ export default function Home() {
       return;
     }
     try {
-      toast.loading(`Purchasing ${numberOfTokens} tokens for Property #${propertyId}...`, {
-        id: "txn-toast",
-      });
+      toast.loading(
+        `Purchasing ${numberOfTokens} tokens for Property #${propertyId}...`,
+        {
+          id: "txn-toast",
+        }
+      );
       const transaction = await contract.buyTokens(propertyId, numberOfTokens);
       await transaction.wait();
-      toast.success(`Successfully bought ${numberOfTokens} tokens for Property #${propertyId}.`, {
-        id: "txn-toast",
-      });
+      toast.success(
+        `Successfully bought ${numberOfTokens} tokens for Property #${propertyId}.`,
+        {
+          id: "txn-toast",
+        }
+      );
     } catch (error) {
       console.error("Error:", error);
       toast.error("Transaction failed.", {
@@ -70,7 +83,10 @@ export default function Home() {
         </div>
         <h3 style={styles.title}>{property.name}</h3>
         <p style={styles.description}>{property.description}</p>
-        <button style={styles.button} onClick={() => buyPropertyTokens(property.id, 10)}>
+        <button
+          style={styles.button}
+          onClick={() => buyPropertyTokens(property.id, 10)}
+        >
           Buy 10 Tokens
         </button>
       </div>
@@ -79,8 +95,26 @@ export default function Home() {
 
   return (
     <div style={styles.body}>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Orbitron:wght@400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet"
+        />
+        <title>Real Estate Tokenization DApp</title>
+      </Head>
+
       <Toaster position="top-right" />
-      <h1 style={styles.header}>Real Estate Tokenization DApp</h1>
+
+      <h1 style={styles.header}>Nova Manor</h1>
+      <p style={styles.tagline}>
+        Tokenize. Trade. Transform Real Estate Forever.
+      </p>
 
       <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         {account ? (
@@ -91,7 +125,6 @@ export default function Home() {
           </button>
         )}
       </div>
-
       <div style={styles.grid}>{renderProperties()}</div>
     </div>
   );
@@ -108,6 +141,7 @@ const styles = {
   header: {
     textAlign: "center",
     fontSize: "2.5rem",
+    fontFamily: "'Orbitron', sans-serif",
     background: "linear-gradient(to right, #00e0ff, #ff00d4)",
     WebkitBackgroundClip: "text",
     WebkitTextFillColor: "transparent",
@@ -143,6 +177,7 @@ const styles = {
   },
   description: {
     fontSize: "0.9rem",
+    fontFamily: "'Lora', serif",
     color: "#ccc",
     textAlign: "center",
     marginBottom: "1rem",
@@ -166,4 +201,22 @@ const styles = {
     textAlign: "center",
     color: "#00e0ff",
   },
+  tagline: {
+    textAlign: "center",
+    fontSize: "1.2rem",
+    fontFamily: "'Orbitron', sans-serif",
+    color: "#9efeff",
+    marginBottom: "2rem",
+    letterSpacing: "1px",
+  },
+  header: {
+    textAlign: "center",
+    fontSize: "4rem", // Increased from 2.5rem
+    fontFamily: "'Orbitron', sans-serif",
+    background: "linear-gradient(to right, #00e0ff, #ff00d4)",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    marginBottom: "1rem", // tightened spacing for better layout
+  },
+  
 };
